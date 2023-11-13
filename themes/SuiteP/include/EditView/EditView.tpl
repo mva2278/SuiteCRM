@@ -224,7 +224,12 @@ $(document).ready(function() {ldelim}
 
     <script type="text/javascript">
 
-    document.addEventListener("DOMContentLoaded", () => {
+    document.addEventListener("DOMContentLoaded", () => {        
+        setWYSIWYG();
+        setSaveBtnConfirm();
+    });
+
+    function setWYSIWYG(){
         let txt_area=document.querySelector('#description');
         
         if(txt_area==null) return false;
@@ -233,15 +238,16 @@ $(document).ready(function() {ldelim}
             .catch( error => {
                 console.error( error );
         } );
+    }
 
+    function setSaveBtnConfirm(){
         let save_btn = document.querySelector('#SAVE');
         if(save_btn == null) return false;
         save_btn.addEventListener('click', function(){
             let res = confirm("Вы уверены, что желаете сохранить данные?");
             if(!res) return false;
         })
-
-    });
+    }
 
     var selectTab = function(tab) {
         $('#EditView_tabs div.tab-content div.tab-pane-NOBOOTSTRAPTOGGLER').hide();
