@@ -110,30 +110,30 @@
 
     <div class="clearfix"></div>
     {{if $useTabs}}
-    <div class="tab-content">
-        {{else}}
+        <div class="tab-content">
+    {{else}}
         <div class="tab-content" style="padding: 0; border: 0;">
-            {{/if}}
+    {{/if}}
             {{counter name="tabCount" start=0 print=false assign="tabCount"}}
             {* Loop through all top level panels first *}
             {{if $useTabs}}
-            {{foreach name=section from=$sectionPanels key=label item=panel}}
-            {{capture name=label_upper assign=label_upper}}{{$label|upper}}{{/capture}}
-            {{if isset($tabDefs[$label_upper].newTab) && $tabDefs[$label_upper].newTab == true}}
-            {{if $tabCount == '0'}}
-            <div class="tab-pane-NOBOOTSTRAPTOGGLER active fade in" id='tab-content-{{$tabCount}}'>
-                {{include file='themes/SuiteP/include/EditView/tab_panel_content.tpl'}}
-            </div>
+                {{foreach name=section from=$sectionPanels key=label item=panel}}
+                    {{capture name=label_upper assign=label_upper}}{{$label|upper}}{{/capture}}
+                    {{if isset($tabDefs[$label_upper].newTab) && $tabDefs[$label_upper].newTab == true}}
+                        {{if $tabCount == '0'}}
+                            <div class="tab-pane-NOBOOTSTRAPTOGGLER active fade in" id='tab-content-{{$tabCount}}'>
+                                {{include file='themes/SuiteP/include/EditView/tab_panel_content.tpl'}}
+                            </div>
+                        {{else}}
+                            <div class="tab-pane-NOBOOTSTRAPTOGGLER fade" id='tab-content-{{$tabCount}}'>
+                                {{include file='themes/SuiteP/include/EditView/tab_panel_content.tpl'}}
+                            </div>
+                        {{/if}}
+                        {{counter name="tabCount" print=false}}
+                    {{/if}}
+                {{/foreach}}
             {{else}}
-            <div class="tab-pane-NOBOOTSTRAPTOGGLER fade" id='tab-content-{{$tabCount}}'>
-                {{include file='themes/SuiteP/include/EditView/tab_panel_content.tpl'}}
-            </div>
-            {{/if}}
-             {{counter name="tabCount" print=false}}
-            {{/if}}
-            {{/foreach}}
-            {{else}}
-            <div class="tab-pane panel-collapse">&nbsp;</div>
+                <div class="tab-pane panel-collapse">&nbsp;</div>
             {{/if}}
         </div>
         {*display panels*}
@@ -142,53 +142,53 @@
             {{counter name="tabCount" start=-1 print=false assign="tabCount"}}
             {{counter name="panelCount" start=-1 print=false assign="panelCount"}}
             {{foreach name=section from=$sectionPanels key=label item=panel}}
-            {{capture name=label_upper assign=label_upper}}{{$label|upper}}{{/capture}}
-            {* if tab *}
-            {{if (isset($tabDefs[$label_upper].newTab) && $tabDefs[$label_upper].newTab == true && $useTabs)}}
-            {{counter name="tabCount" print=false}}
-            {*if tab skip*}
-            {{else}}
-            {* if panel display*}
-            {*if panel collasped*}
-            {{if (isset($tabDefs[$label_upper].panelDefault) && $tabDefs[$label_upper].panelDefault == "collapsed") }}
-            {*collapse panel*}
-            {{assign var='collapse' value="panel-collapse collapse"}}
-            {{assign var='collapsed' value="collapsed"}}
-            {{assign var='collapseIcon' value="glyphicon glyphicon-plus"}}
-            {{assign var='panelHeadingCollapse' value="panel-heading-collapse"}}
-            {{else}}
-            {*expand panel*}
-            {{assign var='collapse' value="panel-collapse collapse in"}}
-            {{assign var='collapseIcon' value="glyphicon glyphicon-minus"}}
-            {{assign var='panelHeadingCollapse' value=""}}
-            {{/if}}
+                {{capture name=label_upper assign=label_upper}}{{$label|upper}}{{/capture}}
+                {* if tab *}
+                {{if (isset($tabDefs[$label_upper].newTab) && $tabDefs[$label_upper].newTab == true && $useTabs)}}
+                {{counter name="tabCount" print=false}}
+                {*if tab skip*}
+                {{else}}
+                {* if panel display*}
+                {*if panel collasped*}
+                {{if (isset($tabDefs[$label_upper].panelDefault) && $tabDefs[$label_upper].panelDefault == "collapsed") }}
+                {*collapse panel*}
+                {{assign var='collapse' value="panel-collapse collapse"}}
+                {{assign var='collapsed' value="collapsed"}}
+                {{assign var='collapseIcon' value="glyphicon glyphicon-plus"}}
+                {{assign var='panelHeadingCollapse' value="panel-heading-collapse"}}
+                {{else}}
+                {*expand panel*}
+                {{assign var='collapse' value="panel-collapse collapse in"}}
+                {{assign var='collapseIcon' value="glyphicon glyphicon-minus"}}
+                {{assign var='panelHeadingCollapse' value=""}}
+                {{/if}}
 
-            {{if $useTabs}}
-                 {{if $tabCount == 0}}
-                     <div class="panel panel-default tab-panel-{{$tabCount}}" style="display: block;">
-                 {{else}}
-                     <div class="panel panel-default tab-panel-{{$tabCount}}" style="display: none;">
-                 {{/if}}
-            {{else}}
-              <div class="panel panel-default">
-            {{/if}}
-                <div class="panel-heading {{$panelHeadingCollapse}}">
-                    <a class="{{$collapsed}}" role="button" data-toggle="collapse-edit" aria-expanded="false">
-                        <div class="col-xs-10 col-sm-11 col-md-11">
-                            {sugar_translate label='{{$label}}' module='{{$module}}'}
+                {{if $useTabs}}
+                    {{if $tabCount == 0}}
+                        <div class="panel panel-default tab-panel-{{$tabCount}}" style="display: block;">
+                    {{else}}
+                        <div class="panel panel-default tab-panel-{{$tabCount}}" style="display: none;">
+                    {{/if}}
+                {{else}}
+                <div class="panel panel-default">
+                {{/if}}
+                    <div class="panel-heading {{$panelHeadingCollapse}}">
+                        <a class="{{$collapsed}}" role="button" data-toggle="collapse-edit" aria-expanded="false">
+                            <div class="col-xs-10 col-sm-11 col-md-11">
+                                {sugar_translate label='{{$label}}' module='{{$module}}'}
+                            </div>
+                        </a>
+
+                    </div>
+                    <div class="panel-body {{$collapse}} panelContainer" id="detailpanel_{{$panelCount}}" data-id="{{$label_upper}}">
+                        <div class="tab-content">
+                            {{include file='themes/SuiteP/include/EditView/tab_panel_content.tpl'}}
                         </div>
-                    </a>
-
-                </div>
-                <div class="panel-body {{$collapse}} panelContainer" id="detailpanel_{{$panelCount}}" data-id="{{$label_upper}}">
-                    <div class="tab-content">
-                        {{include file='themes/SuiteP/include/EditView/tab_panel_content.tpl'}}
                     </div>
                 </div>
-            </div>
 
-            {{/if}}
-            {{counter name="panelCount" print=false}}
+                {{/if}}
+                {{counter name="panelCount" print=false}}
             {{/foreach}}
         </div>
         </div>
@@ -220,8 +220,28 @@ $(document).ready(function() {ldelim}
 </script>
 
 {literal}
+    <script src="https://cdn.ckeditor.com/ckeditor5/40.0.0/classic/ckeditor.js"></script>
 
     <script type="text/javascript">
+
+    document.addEventListener("DOMContentLoaded", () => {
+        let txt_area=document.querySelector('#description');
+        
+        if(txt_area==null) return false;
+        ClassicEditor
+            .create( document.querySelector( '#description' ) )
+            .catch( error => {
+                console.error( error );
+        } );
+
+        let save_btn = document.querySelector('#SAVE');
+        if(save_btn == null) return false;
+        save_btn.addEventListener('click', function(){
+            let res = confirm("Вы уверены, что желаете сохранить данные?");
+            if(!res) return false;
+        })
+
+    });
 
     var selectTab = function(tab) {
         $('#EditView_tabs div.tab-content div.tab-pane-NOBOOTSTRAPTOGGLER').hide();
@@ -270,6 +290,8 @@ $(document).ready(function() {ldelim}
             }
         });
     });
+
+    
 
     </script>
 

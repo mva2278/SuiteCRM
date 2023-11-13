@@ -114,7 +114,7 @@
 {/if}
 {$multiSelectData}
 {if $hideTable == false}
-	<div class="list-view-rounded-corners">
+	<div class="list-view-rounded-corners">	
 		<table cellpadding='0' cellspacing='0' border='0' class='list view table-responsive'>
 	<thead>
 		{assign var="link_select_id" value="selectLinkTop"}
@@ -216,6 +216,7 @@
 	<tbody>
 		{counter start=$pageData.offsets.current print=false assign="offset" name="offset"}
 		{foreach name=rowIteration from=$data key=id item=rowData}
+
 		    {counter name="offset" print=false}
 	        {assign var='scope_row' value=true}
 
@@ -227,6 +228,7 @@
 			<tr height='20' class='{$_rowColor}S1'>
 				{if $prerow}
 				<td>
+				{*<div><pre>{$rowData|print_r}</pre></div>*}
 				 {if !$is_admin && $is_admin_for_user && $rowData.IS_ADMIN==1}
 						<input type='checkbox' disabled="disabled" class='listview-checkbox' value='{$rowData.ID}'>
 				 {else}
@@ -267,8 +269,13 @@
 						{assign var='hide' value=""}
 					{/if}
                     {$displayColumns[type]}
+					{if $rowData['COLOR_LEAD_C']!=''}
+						{assign var='style' value="style='background:#{$rowData['COLOR_LEAD_C']}'"}
+					{else}
+						{assign var='style' value=""}
+					{/if}
 				    {strip}
-					<td {if $scope_row} scope='row' {/if} align='{$params.align|default:'left'}' valign="top" type="{$displayColumns.$col.type}" field="{$col|lower}" class="{$hide} {if $inline_edit && ($displayColumns.$col.inline_edit == 1 || !isset($displayColumns.$col.inline_edit))}inlineEdit{/if}{if ($params.type == 'teamset')}nowrap{/if}{if preg_match('/PHONE/', $col)} phone{/if}">
+					<td {$style} {$rowData['COLOR_LEAD_C']} {if $scope_row} scope='row' {/if} align='{$params.align|default:'left'}' valign="top" type="{$displayColumns.$col.type}" field="{$col|lower}" class="{$hide} {if $inline_edit && ($displayColumns.$col.inline_edit == 1 || !isset($displayColumns.$col.inline_edit))}inlineEdit{/if}{if ($params.type == 'teamset')}nowrap{/if}{if preg_match('/PHONE/', $col)} phone{/if}">
 						{if $col == 'NAME' || $params.bold}<b>{/if}
 					    {if $params.link && !$params.customCode}
 							{capture assign=linkModule}{if $params.dynamic_module}{$rowData[$params.dynamic_module]}{else}{$params.module|default:$pageData.bean.moduleDir}{/if}{/capture}

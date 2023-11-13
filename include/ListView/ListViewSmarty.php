@@ -108,6 +108,23 @@ class ListViewSmarty extends ListViewDisplay
      * @param string $htmlVar the corresponding html public in xtpl per row
      *
      */
+
+    public function getColorLead($data=array()) {
+        //echo "<pre>"; print_r($this->lvd->db); echo "</pre>";die();
+        if(empty($data['data'])) return null;
+        foreach($data['data'] as $key => $item){
+            $id=$item['ID'];
+            $query="SELECT color_lead_c FROM leads_cstm WHERE id_c='{$id}'";
+            //echo "<pre>"; print_r($query); echo "</pre>";
+            $result=$this->lvd->db->query($query);
+            //echo "<pre>"; print_r($result); echo "</pre>";
+            $row=$this->lvd->db->fetchByAssoc($result);
+            //echo "<pre>"; print_r($row); echo "</pre>";
+            $data['data'][$key]['COLOR_LEAD_C'] = $row['color_lead_c'];
+        }
+        //echo "<pre>"; print_r($data); echo "</pre>";die();
+        return $data;
+    }
     public function process($file, $data, $htmlpublic)
     {
         global $mod_strings;
@@ -130,6 +147,7 @@ class ListViewSmarty extends ListViewDisplay
         parent::process($file, $data, $htmlpublic);
 
         $this->tpl = $file;
+        $data = $this->getColorLead($data);
         $this->data = $data;
 
         $totalWidth = 0;
